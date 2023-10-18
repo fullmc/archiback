@@ -4,7 +4,7 @@ const app = express();
 const port = 3000;
 const pkmRouter = require('./router/pkmRouter');
 const authRouter = require('./router/authRouter');
-const jwt = require('jsonwebtoken');
+
 // init mongoose
 const mongoose = require('mongoose');
 
@@ -30,23 +30,6 @@ app.use('/auth', authRouter);
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
-
-// app.get('/token', function(req, res){
-//   const token = jwt.sign({username:'ado'}, 'supersecret',{expiresIn: 120});
-//   res.send(token)
-// })
-
-// app.get('/', function(req, res){
-//   var token = req.query.token;
-//   jwt.verify(token, 'supersecret', function(err, decoded){
-//     if(!err){
-//       var secrets = {'accountNumber' : '938291239','pin' : '11289','account' : 'Finance'};
-//       res.json(secrets);
-//     } else {
-//       res.send(err);
-//     }
-//   })
-// })
 
 // listen server
 app.listen(port, () => {

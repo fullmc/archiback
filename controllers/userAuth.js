@@ -1,4 +1,4 @@
-const auth = require('../models/auth');
+const auth = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -9,14 +9,12 @@ exports.create = (req, res) => {
     email: user.email,
     password: user.password,
   }); 
-  // crypter le mot de passe jwt
 
-  bcrypt.hash(authentification.password, 10)
+  // crypter le mot de passe jwt
+  bcrypt.hash(authentification.password, 10) // on utilise bcrypt pour hasher le mot de passe 
     .then(hash => {
-      authentification.password = hash;
-      console.log(hash);
-      console.log(authentification);
-      authentification.save() // sauvegarde le pkm dans la base de données
+      authentification.password = hash; // on remplace le mot de passe par le hash directement après l'avoir reçu
+      authentification.save() // on sauvegarde le user dans la base de données dès que le mot de passe est hashé
         .then(data => {
           res.send(data);
         }).catch(err => {
@@ -34,7 +32,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-  auth.find() // récupère tous les modèles de pkms de la base de données
+  auth.find() // récupère tous les users
     .then(auths => {
       res.send(auths);
     }).catch(err => {

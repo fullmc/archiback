@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const pkmAuth = require('../controllers/pkmAuth');
+const userAuth = require('../controllers/userAuth');
+const auth = require('../middleware/auth');
 
-// Create a new auth
-router.post('/', pkmAuth.create); // Create a new auth
-router.get('/', pkmAuth.findAll); // Retrieve all auths
-router.delete('/:id', pkmAuth.delete);
-router.post('/login', pkmAuth.login);
+router.post('/',auth, userAuth.create); // Create a new auth
+router.get('/', userAuth.findAll); // Retrieve all auths
+router.delete('/:id',userAuth.delete);
+router.post('/login', userAuth.login);
+// router.put('/:id', userAuth.update);
 // router.get('/:id', auth ,pkmAuth.findOne);
 
 module.exports = router;

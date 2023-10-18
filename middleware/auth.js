@@ -1,15 +1,18 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
 module.exports = (req, res, next) => {
-  try {
-    const token = req.headers.Authorization; // on récupère le token dans le header de la requête
+  try { // attention à l'indentation ici ! sinon ça passe pas
+    const token = req.headers.authorization.split(' ')[1]; // on récupère le token dans le header de la requête
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET'); // on le décode
-    const userId = decodedToken.userId; // on récupère l'id utilisateur
-    if (req.body.userId && req.body.userId !== userId) { // si l'id utilisateur est différent de celui du token
-      throw 'Invalid user ID';
-    } else {
-      next(); // sinon on passe au prochain middleware
-    }
+    User.findById(decodedToken.userId) // on récupère l'id utilisateur
+    .then(() => {
+      next();
+    }).catch((error) => {
+      res.status(401).send({
+        error: "caca"
+      });
+    });
   } catch {
     res.status(401).json({
       error: new Error('Invalid request!')

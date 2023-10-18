@@ -9,7 +9,7 @@ exports.create = (req, res) => {
     name: postPkm.name,
     type: postPkm.type,
     level: postPkm.level,
-  }); 
+  });
   pkm.save() // sauvegarde le pkm dans la base de données
     .then(data => {
       res.send(data);
