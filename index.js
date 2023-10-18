@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-const pkmRouter = require('./router/pkmRouter');
+const booksRouter = require('./router/booksRouter');
 const authRouter = require('./router/authRouter');
 
 // init mongoose
@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //router sur lequel il va afficher les infos
-app.use('/pkm', pkmRouter);
+app.use('/books', booksRouter);
 app.use('/auth', authRouter);
 
 // init server
