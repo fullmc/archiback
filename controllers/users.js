@@ -1,11 +1,11 @@
-const auth = require('../models/user');
+const USER = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 exports.create = (req, res) => {
   const user = req.body; // on récupère le body de la requête 
 
-  const authentification = new auth({
+  const authentification = new USER({
     email: user.email,
     password: user.password,
   }); 
@@ -32,9 +32,9 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-  auth.find() // récupère tous les users
-    .then(auths => {
-      res.send(auths);
+  USER.find() // récupère tous les users
+    .then(USERS => {
+      res.send(USERS);
     }).catch(err => {
       res.status(500).send({
         message: err.message
@@ -44,9 +44,9 @@ exports.findAll = (req, res) => {
 
 exports.delete = (req, res) => {
   console.log("delete");
-  auth.findByIdAndRemove(req.params.id)
-    .then(auth => {
-      if (!auth) {
+  USER.findByIdAndRemove(req.params.id)
+    .then(USER => {
+      if (!USER) {
         return res.status(404).send({
           message: "user not found with id " + req.params.id
         });
@@ -68,31 +68,34 @@ exports.delete = (req, res) => {
 
 // on exporte la fonction login qui va permettre de connecter un utilisateur existant
 exports.login = (req, res, next) => {
-  auth.findOne({ email: req.body.email })
+  // on cherche l'utilisateur dans la base de données
+  const user = req.body;
+  USER.findOne({ email: req.body.email })
       .then(user => {
           if (!user) {
               return res.status(401).json({ error: 'Utilisateur non trouvé !' });
           }
-          console.log("BODY", req.body);
-          console.log("user", user);
-
-          bcrypt.compare(req.body.password, user.password) // on compare le mot de passe entré avec le hash enregistré dans la base de données
+          
+          // on vérifie le mot de passe en comparant le hash de la base de données avec celui de la requête
+          bcrypt.compare(req.body.password, user.password) 
               .then(valid => {
-                console.log("valid", valid);
                   if (!valid) {
                       return res.status(401).json({ error: 'Mot de passe incorrect !' });
-                  }
-                  res.status(200).json({ // si le mot de passe est bon, on renvoie un objet JSON avec un userId et un token
-                      userId: user._id,
-                      token: jwt.sign(
-                          { userId: user._id },
-                          'RANDOM_TOKEN_SECRET',
-                          { expiresIn: '24h' }
-                      )
-                  });
+                  } 
+                  // si le mot de passe est bon, on renvoie un objet JSON avec un userId et un token
               })
-              .catch(error => res.status(500).json({ error }));
-      })
+                  const token = jwt.sign({ userId: user._id }, 'TOKEN',{ expiresIn: '24h' })
+                  res.cookie('TOKEN', token, { maxAge: 900000, httpOnly: true, Secure: true, });
+                  res.status(200).json({
+                    userId: user._id,
+                    token: token, // on envoie le token dans un cookie, maxAge est le temps de validité du cookies
+                })
+
+                  })
+                 
       .catch(error => res.status(500).json({ error }));
 };
 
+exports.logout = (req, res) => {
+  res.status(200).clearCookie('TOKEN').json({ message: "Déconnexion réussie" });
+};
