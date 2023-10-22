@@ -11,7 +11,7 @@ exports.create = (req, res) => {
   })
   book.save() // sauvegarde le book dans la base de données
     .then(data => {
-      res.send(data)
+      res.send('Super ! ' + req.body.title + ' de ' + req.body.author + ' a bien été ajouté !')
     }).catch(err => {
       res.status(500).send({
         message: err.message
@@ -103,6 +103,20 @@ exports.delete = (req, res) => {
       }
       return res.status(500).send({
         message: 'Could not delete book with id' + req.params.id
+      })
+    })
+}
+
+// Delete all books from the database.
+exports.deleteAll = (req, res) => {
+  Book.deleteMany()
+    .then(() => {
+      res.send({
+        message: 'All books deleted successfully!'
+      })
+    }).catch(err => {
+      res.status(500).send({
+        message: err.message
       })
     })
 }

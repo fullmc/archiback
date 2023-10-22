@@ -1,7 +1,7 @@
 const USER = require('../models/user')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-
+const path = require('path')
 exports.create = (req, res) => {
   const user = req.body // on récupère le body de la requête
 
@@ -16,7 +16,8 @@ exports.create = (req, res) => {
       authentification.password = hash // on remplace le mot de passe par le hash directement après l'avoir reçu
       authentification.save() // on sauvegarde le user dans la base de données dès que le mot de passe est hashé
         .then(data => {
-          res.send(data)
+          // res.send('Welcome ' + req.body.email + ' !' + ' You are now registered ! Here is your ID : ' + data._id)
+          res.sendFile(path.join(__dirname, '../frontend/users.html'))
         }).catch(err => {
           res.status(500).send({
             message: err.message
@@ -64,7 +65,19 @@ exports.delete = (req, res) => {
       })
     })
 }
-
+// delete all users
+exports.deleteAll = (req, res) => {
+  USER.deleteMany()
+    .then(() => {
+      res.send({
+        message: 'All users deleted successfully!'
+      })
+    }).catch(err => {
+      res.status(500).send({
+        message: err.message
+      })
+    })
+}
 // on exporte la fonction login qui va permettre de connecter un utilisateur existant
 exports.login = (req, res, next) => {
   // on cherche l'utilisateur dans la base de données
