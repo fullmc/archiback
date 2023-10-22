@@ -7,29 +7,29 @@ This school project is a boilerplate to help people start with Node js, Express 
 For this project, I used a few libraries in order to securize the app as well as :
 
 ```
-- NodeJS v18
+NodeJS v18
 
-- Body-parser : to parse data from the body of HTTP requests, simplifying the handling of incoming data and improving performance.
+Body-parser : to parse data from the body of HTTP requests, simplifying the handling of incoming data and improving performance.
 
-- Cors : allows to configure security policies to handle cross-origin requests securely
+Cors : allows to configure security policies to handle cross-origin requests securely
 
-- Mongoose: enhances security by defining data schemas and enforcing validation. It improves performance by simplifying database operations, making them more efficient.
+Mongoose: enhances security by defining data schemas and enforcing validation. It improves performance by simplifying database operations, making them more efficient.
 
-- express js: Node.js web application framework
+express js: Node.js web application framework
 
-- Json Web Token (Jwt): for user authentication and authorization. Enhance security by enabling token-based authentication rather than storing plain-text passwords. 
+Json Web Token (Jwt): for user authentication and authorization. Enhance security by enabling token-based authentication rather than storing plain-text passwords. 
 
-- Cookie-parser : simplifies cookie management. Stores authentication and session state information, improving user session management and reinforcing security.
+Cookie-parser : simplifies cookie management. Stores authentication and session state information, improving user session management and reinforcing security.
 
-- Bcrypt : to secure password hashing before storing it in the database. Makes passwords challenging to decrypt.
+Bcrypt : to secure password hashing before storing it in the database. Makes passwords challenging to decrypt.
 
-- Mongoose-unique-validator : ensures that fields in your MongoDB models are unique. It enhances security by preventing unwanted duplicates.
+Mongoose-unique-validator : ensures that fields in your MongoDB models are unique. It enhances security by preventing unwanted duplicates.
 
-- path : facilitates file and directory path management. 
+path : facilitates file and directory path management. 
 
-- dotenv : to store sensitive environment variables, such as secret keys and database connection information. It improves security by avoiding the storage of sensitive information in the source code.
+dotenv : to store sensitive environment variables, such as secret keys and database connection information. It improves security by avoiding the storage of sensitive information in the source code.
 
-- eslint and prettier : formatters to improve code quality, standardize code style, and enhance code readability
+eslint and prettier : formatters to improve code quality, standardize code style, and enhance code readability
 ```
 
 ### Try it ! 
