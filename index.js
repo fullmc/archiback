@@ -1,4 +1,5 @@
 // init server express
+require('dotenv').config()
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const app = express()
@@ -10,7 +11,7 @@ const usersRouter = require('./router/usersRouter')
 const mongoose = require('mongoose')
 
 // Connection à la base de données
-mongoose.connect('mongodb+srv://mc:Devinci2023@cluster0.wfrhh43.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true })
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
   .then(() => console.log('Connected to MongoDB !')) // 'then' = quand ça marche
   .catch(err => console.error(err + 'Could not connect to MongoDB ')) // 'catch'np = quand ça marche pas
 
