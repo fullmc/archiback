@@ -43,7 +43,6 @@ exports.findAll = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  console.log("delete");
   USER.findByIdAndRemove(req.params.id)
     .then(USER => {
       if (!USER) {
@@ -69,7 +68,6 @@ exports.delete = (req, res) => {
 // on exporte la fonction login qui va permettre de connecter un utilisateur existant
 exports.login = (req, res, next) => {
   // on cherche l'utilisateur dans la base de données
-  const user = req.body;
   USER.findOne({ email: req.body.email })
       .then(user => {
           if (!user) {
@@ -91,9 +89,7 @@ exports.login = (req, res, next) => {
                     token: token, // on envoie le token dans un cookie, maxAge est le temps de validité du cookies
                 })
 
-                  })
-                 
-      .catch(error => res.status(500).json({ error }));
+      }).catch(error => res.status(500).json({ error }));
 };
 
 exports.logout = (req, res) => {
